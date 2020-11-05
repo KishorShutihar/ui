@@ -17,15 +17,15 @@ def press(key):
 
    clear()
    fvalue.set(filenameList[index])
-   cvalue.set(contentList[index])
+   content.insert(INSERT,contentList[index])
    # filename.insert(INSERT,f"{fvalue}")
    # content.insert(INSERT,f"{cvalue}")
 
 def clear():
-   global filename,content
+   global fvalue,content
    print("I am from clear function")
    fvalue.set("")
-   cvalue.set("")
+   content.delete('1.0',END)
 
 # Tkinter object
 obj = app.Tk()
@@ -46,15 +46,16 @@ count = len(filenameList)
 
 # while(1):
 fvalue=StringVar()
-cvalue=StringVar()
 fvalue.set(filenameList[index])
-cvalue.set(contentList[index])
+cvalue=contentList[index]
 
 # text
 print(f"This is fvalue: {fvalue} and cvalue:{cvalue}")
 filename= Entry(obj,font="Monospace 12 bold",textvariable=fvalue)
 # filename.insert(INSERT,f"{fvalue}")
-content= Entry(obj,font="Monospace 12 bold",textvariable=cvalue)
+# content= Entry(obj,font="Monospace 12 bold",textvariable=cvalue)
+content = Text(obj,font="Monospace 12 bold",height=6)
+content.insert(INSERT,f"{cvalue}")
 # content.insert(INSERT,f"{cvalue}")
 nextbutton = Button(obj,command =lambda:press("next"),text="Next",fg='White',bg='Olive',width=5,height=2)
 print('hello guys aha guys aha aha guys')
