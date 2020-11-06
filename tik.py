@@ -4,6 +4,7 @@ from tkinter import *
 from PIL import Image,ImageTk
 import os
 
+index = 0
 def press(key):
    global fvalue,cvalue,index,filenameList,contentList
    if key=='next':
@@ -25,6 +26,7 @@ obj = app.Tk()
 obj.title('Recording GUI')
 obj.geometry('733x500')
 obj.minsize(400,490)
+obj.maxsize(733,500)
 obj.configure(background="light blue")
 
 file = "./metadata.csv"
@@ -46,6 +48,7 @@ filename= Entry(obj,font="Monospace 23 bold",textvariable=fvalue)
 content = Text(obj,font="Monospace 15 bold",height=6,fg="Black",width=0)
 content.configure(background="light blue")
 content.insert(INSERT,f"{cvalue}")
+
 nextbutton = Button(obj,command =lambda:press("next"),text="Next",fg='White',bg='Olive',width=5,height=2)
 prevbutton = Button(obj,command =lambda:press("prev"),text="Prev",bg='Olive',fg='White',width=5,height=2)
 
