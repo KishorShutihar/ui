@@ -17,16 +17,20 @@ import numpy  # Make sure NumPy is loaded before it is used in the callback
 assert numpy  # avoid "imported but unused" message (W0611)
 
 index = 0
+v=0
 def press(key):
-   global fvalue,cvalue,index,filenameList,contentList,args
+   global fvalue,cvalue,index,filenameList,contentList,args,v
+   val=0
    if key=='next':
       index+=1
    else:
       index-=1
    clear()
    fvalue.set(filenameList[index])
+   iindex.set(index)
    content.insert(INSERT,contentList[index])
-   args.filename = f"{filenameList[index]}.wav"
+   args.filename = f"{filenameList[index]}({val}).wav"
+   v=0
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -56,7 +60,7 @@ class App():
         # parser.exit(0)
 
     def _record(self):
-        global args
+        global args,v
         i=0
         if args.samplerate is None:
             device_info = sd.query_devices(args.device, 'input')
@@ -64,7 +68,12 @@ class App():
             args.samplerate = int(device_info['default_samplerate'])
 
         if args.filename is None:
-            args.filename = f"{filenameList[index]}.wav"
+            args.filename = f"{filenameList[index]}({v}).wav"
+
+        if path.exists(f"{filenameList[index]}({v}).wav"):
+            v+=1
+            args.filename = f"{filenameList[index]}({v}).wav"
+
 
         # Make sure the file is opened before recording anything:
         with sf.SoundFile(args.filename, mode='x', samplerate=args.samplerate,
@@ -105,6 +114,8 @@ contentList= data.content1.tolist()
 count = len(filenameList)
 
 fvalue=StringVar()
+iindex=IntVar()
+iindex.set(index)
 fvalue.set(filenameList[index])
 cvalue=contentList[index]
 
@@ -139,8 +150,10 @@ args = parser.parse_args(remaining)
 q = queue.Queue()
 
 # text
+
 print(f"This is fvalue: {fvalue} and cvalue:{cvalue}")
 filename= Entry(obj,font="Monospace 12 bold",textvariable=fvalue)
+indexnumber=Entry(obj,font="Monospace 20 bold",textvariable=iindex)
 content = Text(obj,font="Monospace 15 bold",height=6,fg="Black",width=0)
 content.configure(background="light blue")
 content.insert(INSERT,f"{cvalue}")
@@ -153,6 +166,7 @@ prevbutton.place(relx=0.685+ 0.085,rely=0.0875 , anchor=SE)
 
 filename.place(relx=0.7,rely =0.0869,anchor=SE)
 content.place(relx=0.008,rely=0.1,width=720)
+indexnumber.place(relx=1.9,rely=0.7,anchor=SE)
 gui=App(obj)
 
 
