@@ -21,17 +21,30 @@ v=0
 def delete():
     path='/home/kishor/Desktop/ui'
     filename= args.filename
+    print("filename yo airaxa",filename)
     filenamelist=os.listdir(path)
     dict={}
     j=0
     for file in filenamelist:
         if (file[:-5:-1])[::-1]==".wav":
-            if filename[:6] in file:
-                j=int(file[-6:-7:-1])
-                dict[j]=file
-                j+=1
+            if filename[:7] in file:
+                if len(file)<=13:
+                    j=int(file[-6:-7:-1])
+                    print("j ko value from single digit ->>",j)
+                    dict[j]=file
+                    print("dictionary j",dict[j])
+                    print('#'*20)
+                    j+=1
+                else:
+                    j=int((file[-6:-8:-1])[::-1])
+                    print("j ko value from double digit->>",j)
+                    dict[j]=file
+                    print("dictionary j",dict[j])
+                    print('#'*20)
+                    j+=1
 
     maximum=max(dict.keys())
+    print(dict)
 
     for k in range(len(dict)-1):
         if k!=maximum:
@@ -75,7 +88,7 @@ class App():
 
     def stoprecording(self,event):
         self.isrecording = False
-        print("Iam from stoprecording")
+        print("Recording stopped")
         print('\nRecording finished: ' + repr(args.filename))
 
     def _record(self):
@@ -102,7 +115,7 @@ class App():
                 while self.isrecording == True:
                     file.write(q.get())
                     i+=1
-                    print(f"lets see {i}")
+                    print(f"Recording -->> {i}")
 
     def startrecording(self,event):
         self.isrecording = True
@@ -187,7 +200,7 @@ prevbutton.place(relx=0.685+ 0.085,rely=0.0875 , anchor=SE)
 
 filename.place(relx=0.65,rely =0.0869,anchor=SE)
 content.place(relx=0.008,rely=0.1,width=720)
-indexnumber.place(relx=1.9,rely=0.7,anchor=SE)
+indexnumber.place(relx=1.8,rely=0.7,anchor=SE)
 gui=App(obj)
 
 
