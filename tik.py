@@ -1,7 +1,6 @@
 import pandas as pd
 import tkinter as app
 from tkinter import *
-from PIL import Image,ImageTk
 import os
 import threading
 from os import path
@@ -18,6 +17,27 @@ assert numpy  # avoid "imported but unused" message (W0611)
 
 index = 0
 v=0
+
+def delete():
+    path='/home/kishor/Desktop/ui'
+    filename= args.filename
+    filenamelist=os.listdir(path)
+    dict={}
+    j=0
+    for file in filenamelist:
+        if (file[:-5:-1])[::-1]==".wav":
+            if filename[:16] in file:
+                j=int(file[-6:-7:-1])
+                dict[j]=file
+                j+=1
+
+    maximum=max(dict.keys())
+
+    for k in range(len(dict)-1):
+        if k!=maximum:
+            os.remove(os.path.join(path,dict[k]))
+
+
 def press(key):
    global fvalue,cvalue,index,filenameList,contentList,args,v
    val=0
@@ -57,7 +77,6 @@ class App():
         self.isrecording = False
         print("Iam from stoprecording")
         print('\nRecording finished: ' + repr(args.filename))
-        # parser.exit(0)
 
     def _record(self):
         global args,v
@@ -160,11 +179,13 @@ content.insert(INSERT,f"{cvalue}")
 
 nextbutton = Button(obj,command =lambda:press("next"),text="Next",fg='White',bg='Olive',width=5,height=2)
 prevbutton = Button(obj,command =lambda:press("prev"),text="Prev",bg='Olive',fg='White',width=5,height=2)
+deletebutton = Button(obj,command =lambda:delete(),text="Delete",bg='Orange',fg='Black',width=5,height=2)
 
+deletebutton.place(relx=0.678,rely=0.0875, anchor=SE)
 nextbutton.place(relx = 0.77+0.085, rely = 0.0875,anchor=SE)
 prevbutton.place(relx=0.685+ 0.085,rely=0.0875 , anchor=SE)
 
-filename.place(relx=0.7,rely =0.0869,anchor=SE)
+filename.place(relx=0.65,rely =0.0869,anchor=SE)
 content.place(relx=0.008,rely=0.1,width=720)
 indexnumber.place(relx=1.9,rely=0.7,anchor=SE)
 gui=App(obj)
