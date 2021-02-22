@@ -26,7 +26,7 @@ def delete():
     j=0
     for file in filenamelist:
         if (file[:-5:-1])[::-1]==".wav":
-            if filename[:16] in file:
+            if filename[:6] in file:
                 j=int(file[-6:-7:-1])
                 dict[j]=file
                 j+=1
