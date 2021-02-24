@@ -203,7 +203,4 @@ content.place(relx=0.008,rely=0.1,width=720)
 indexnumber.place(relx=1.8,rely=0.7,anchor=SE)
 gui=App(obj)
 
-
 obj.mainloop()
-
-
